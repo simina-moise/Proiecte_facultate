@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox styleClass="popup-window"
+      spacing="10" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.healthtracker.controller.RecipeController"
+      style="-fx-padding: 20;">
+
+    <Label text="Rețete sănătoase" style="-fx-font-size: 18;" />
+    <TableView fx:id="recipeTable">
+        <columns>
+            <TableColumn fx:id="nameColumn" text="Nume" />
+            <TableColumn fx:id="descColumn" text="Descriere" />
+            <TableColumn fx:id="caloriesColumn" text="Calorii" />
+        </columns>
+    </TableView>
+    <Button fx:id="addToJournalButton" text="Adaugă în jurnal ca masă" />
+</VBox>

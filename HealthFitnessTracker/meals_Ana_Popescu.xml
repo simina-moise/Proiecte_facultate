@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<meals>
+    <meal>
+        <date>2025-05-30</date>
+        <description>Simi</description>
+        <calories>492044</calories>
+    </meal>
+    <meal>
+        <date>2025-05-29</date>
+        <description>rtgtrh</description>
+        <calories>500</calories>
+    </meal>
+    <meal>
+        <date>2025-05-28</date>
+        <description>fhwhefwf</description>
+        <calories>666</calories>
+    </meal>
+    <meal>
+        <date>2025-05-27</date>
+        <description>Lava</description>
+        <calories>10000000</calories>
+    </meal>
+    <meal>
+        <date>2025-05-27</date>
+        <description>Lava</description>
+        <calories>10000000</calories>
+    </meal>
+    <meal>
+        <date>2025-05-27</date>
+        <description>Lava</description>
+        <calories>10000000</calories>
+    </meal>
+    <meal>
+        <date>2025-05-26</date>
+        <description>mic-dejun</description>
+        <calories>500</calories>
+    </meal>
+</meals>

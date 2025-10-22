@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox styleClass="popup-window"
+      xmlns="http://javafx.com/javafx/20"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.healthtracker.controller.RecommendationController"
+      spacing="20" alignment="CENTER">
+
+    <Label text="Recomandare Personalizată" style="-fx-font-size: 18;" />
+    <Label fx:id="bmiLabel" text="IMC: ?" />
+    <Label fx:id="suggestionLabel" text="..." wrapText="true" />
+    <Button fx:id="generateButton" text="Generează Sugestie" />
+</VBox>

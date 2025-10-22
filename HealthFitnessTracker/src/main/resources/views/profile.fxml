@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+
+<VBox styleClass="popup-window"
+      xmlns="http://javafx.com/javafx/20"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.healthtracker.controller.ProfileController"
+      alignment="CENTER" spacing="20" style="-fx-padding: 20;">
+
+    <Label text="Date Profil" style="-fx-font-size: 20;" />
+
+    <TextField fx:id="heightField" promptText="Înălțime (cm)" />
+    <TextField fx:id="weightField" promptText="Greutate (kg)" />
+
+    <Button fx:id="saveButton" text="Salvează" />
+
+    <Label fx:id="feedbackLabel" text="" style="-fx-text-fill: green;" />
+
+</VBox>

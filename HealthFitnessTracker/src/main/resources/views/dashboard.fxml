@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<TabPane xmlns="http://javafx.com/javafx/20"
+         xmlns:fx="http://javafx.com/fxml/1"
+         fx:controller="com.healthtracker.controller.DashboardController"
+         prefWidth="600" prefHeight="600"
+         stylesheets="@/css/style.css">
+
+    <Tab text="Jurnal">
+        <HBox spacing="30" alignment="TOP_CENTER" style="-fx-padding: 20;">
+            <!-- Stânga: butoane -->
+            <VBox spacing="10" alignment="TOP_LEFT">
+                <Label fx:id="welcomeLabel" text="Bine ai venit!" style="-fx-font-size: 18;" />
+                <Button fx:id="addMealButton" text="Adaugă masă" />
+                <Button fx:id="deleteMealButton" text="Șterge masă" />
+                <Button fx:id="addExerciseButton" text="Adaugă exercițiu" />
+                <Button fx:id="deleteExerciseButton" text="Șterge exercițiu" />
+                <Button fx:id="showStatsButton" text="Vezi statistici" />
+                <Button fx:id="exportXmlButton" text="Exportă mese în XML" />
+                <Button fx:id="exportExercisesButton" text="Exportă exerciții în XML" />
+                <DatePicker fx:id="filterDatePicker" promptText="Filtrează după dată" />
+                <Button fx:id="checkCaloriesButton" text="Calorii totale azi" />
+                <Button fx:id="openProfileButton" text="Date Profil" />
+                <Button fx:id="openRecommendationsButton" text="Sugestii personalizate" />
+                <Button fx:id="openRecipesButton" text="Rețete sănătoase" />
+            </VBox>
+
+            <!-- Dreapta: tabele -->
+            <VBox spacing="15">
+                <Label text="Mese" style="-fx-font-size: 16;" />
+                <TableView fx:id="mealTable" prefWidth="400" prefHeight="180">
+                    <columns>
+                        <TableColumn fx:id="dateColumn" text="Data" />
+                        <TableColumn fx:id="descriptionColumn" text="Descriere" />
+                        <TableColumn fx:id="caloriesColumn" text="Calorii" />
+                    </columns>
+                </TableView>
+
+                <Label text="Exerciții" style="-fx-font-size: 16;" />
+                <TableView fx:id="exerciseTable" prefWidth="400" prefHeight="180">
+                    <columns>
+                        <TableColumn fx:id="exerciseDateColumn" text="Data" />
+                        <TableColumn fx:id="typeColumn" text="Tip" />
+                        <TableColumn fx:id="durationColumn" text="Durată (min)" />
+                        <TableColumn fx:id="caloriesBurnedColumn" text="Calorii arse" />
+                    </columns>
+                </TableView>
+            </VBox>
+        </HBox>
+    </Tab>
+
+
+
+</TabPane>

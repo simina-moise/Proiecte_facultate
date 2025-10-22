@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<exercises>
+    <exercise>
+        <date>2025-05-27</date>
+        <type>sala</type>
+        <duration>123</duration>
+        <calories>444</calories>
+    </exercise>
+    <exercise>
+        <date>2025-05-26</date>
+        <type>ffff</type>
+        <duration>22</duration>
+        <calories>456</calories>
+    </exercise>
+    <exercise>
+        <date>2025-05-03</date>
+        <type>fund</type>
+        <duration>100</duration>
+        <calories>503033</calories>
+    </exercise>
+</exercises>

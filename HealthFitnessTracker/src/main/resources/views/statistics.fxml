@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+
+<VBox styleClass="popup-window"
+      xmlns="http://javafx.com/javafx/20"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.healthtracker.controller.StatisticsController"
+      alignment="CENTER" spacing="20" prefWidth="600" prefHeight="500"
+      style="-fx-padding: 20;">
+
+    <Label text="Statistici: Calorii Consumate vs Arse" style="-fx-font-size: 18;" />
+
+    <LineChart fx:id="caloriesChart" title="Calorii / Zi" animated="true">
+        <xAxis>
+            <CategoryAxis label="Data" />
+        </xAxis>
+        <yAxis>
+            <NumberAxis label="Calorii" />
+        </yAxis>
+    </LineChart>
+
+</VBox>
