@@ -1,0 +1,117 @@
+class_section
+   class MyClass 
+        {
+            var_section
+                int a,b; 
+
+            fun_section
+                int myClassFunction(int a, char x)
+                {
+                    a = 2;
+                    x = 'b';
+                }
+
+            init_section
+                init();
+        }
+
+globalvar_section
+
+    int var1; int var2;
+    float g = 10.4;
+    string v[100];
+    string str = "Hello";
+    int aaaa, bbbb, ccc, ddd, eee, fff, ggg, hhh;  
+
+
+globalfun_section
+
+    int function1(int u1, char u2)
+    {
+        u1 = 10;
+        u2 = 'a';
+    }
+    
+    bool check1() { int value;}
+    bool check2() { int zzz;}
+    
+    void Eval()
+    {
+        // Implementare Eval
+    }
+    
+    void TypeOf()
+    {
+        // Implementare TypeOf
+    }
+
+begin_progr
+
+char alex;
+string suntDeUmplutura = "Salutare";
+alex = 'c';
+if(x == 10 && 1 == 1)
+{
+    alex = 'a';
+}
+string str2 = "Hello";
+const int y = 10;
+MyClass a;
+if(x == 10)
+{
+    function1(x, 'x');
+}
+else
+{
+    x = 100;
+}
+int z = 1;
+Eval('a' + 'a');
+
+Eval(2.0);
+
+int abc;
+int def;
+TypeOf(z);
+int www;
+TypeOf(www);
+Eval(www);
+
+x = 120 / 20;
+int i;
+
+for(i = 0; i <= 10; i++)
+{
+    x = x - 20;
+}
+
+while(x == 7)
+{
+    v[10] = '1';
+}
+while(true)
+{
+    int acso = 0;
+}
+
+function20();
+function1(1, 'a'); 
+function1(1, 1, 1);
+
+int i;
+
+ned = 20;
+int update = 1;
+
+int testing = update + 10 - 2 - 400;
+int testing2 = testing + 10;
+Eval(testing);
+Eval(testing2);
+
+int testing3 = testing2;
+Eval(testing3);
+TypeOf(testing3);
+TypeOf(testing2 == testing3);
+
+end_progr
+

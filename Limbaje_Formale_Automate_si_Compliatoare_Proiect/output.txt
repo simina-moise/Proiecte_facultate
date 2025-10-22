@@ -1,0 +1,191 @@
+Variables: 
+{
+    {
+      Name: var1
+      Type: int
+      Value: 0
+    }
+    {
+      Name: var2
+      Type: int
+      Value: 0
+    }
+    {
+      Name: g
+      Type: float
+      10.400000
+      Value: 
+    }
+    {
+      Name: v
+      Type: string
+      Value: 
+    }
+    {
+      Name: str
+      Type: string
+      Value: el
+    }
+    {
+      Name: aaaa
+      Type: int
+      Value: 0
+    }
+    {
+      Name: alex
+      Type: char
+      Value: 48
+    }
+    {
+      Name: suntDeUmplutura
+      Type: string
+      Value: aluta
+    }
+    {
+      Name: str2
+      Type: string
+      Value: el
+    }
+    {
+      Name: y
+      Type: int
+      Value: 10
+    }
+    {
+      Name: a
+      Type: MyClass
+      Value: 
+      Variables: 
+      {
+          {
+            Name: a
+            Type: int
+            Value: 0
+          }
+      }
+      Functions: 
+      {
+          {
+            Name: myClassFunction
+            Type: int
+            Parameters: 
+            {
+              {
+                Name: a
+                Type: int
+              }
+              {
+                Name: x
+                Type: char
+              }
+              {
+                Name: a
+                Type: int
+              }
+              {
+                Name: x
+                Type: char
+              }
+            }
+          }
+      }
+    }
+    {
+      Name: z
+      Type: int
+      Value: 1
+    }
+    {
+      Name: abc
+      Type: int
+      Value: 0
+    }
+    {
+      Name: def
+      Type: int
+      Value: 0
+    }
+    {
+      Name: www
+      Type: int
+      Value: 0
+    }
+    {
+      Name: i
+      Type: int
+      Value: 0
+    }
+    {
+      Name: acso
+      Type: int
+      Value: 0
+    }
+    {
+      Name: update
+      Type: int
+      Value: 1
+    }
+    {
+      Name: testing
+      Type: int
+      Value: -391
+    }
+    {
+      Name: testing2
+      Type: int
+      Value: -381
+    }
+    {
+      Name: testing3
+      Type: int
+      Value: -381
+    }
+}
+Functions: 
+{
+    {
+      Name: function1
+      Type: int
+      Parameters: 
+      {
+        {
+          Name: u1
+          Type: int
+        }
+        {
+          Name: u2
+          Type: char
+        }
+        {
+          Name: u1
+          Type: int
+        }
+        {
+          Name: u2
+          Type: char
+        }
+      }
+    }
+    {
+      Name: check1
+      Type: bool
+      Parameters: 
+      {
+        {
+          Name: value
+          Type: int
+        }
+      }
+    }
+    {
+      Name: check2
+      Type: bool
+      Parameters: 
+      {
+        {
+          Name: zzz
+          Type: int
+        }
+      }
+    }
+}
