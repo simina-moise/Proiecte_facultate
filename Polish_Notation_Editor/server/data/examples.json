@@ -1,0 +1,23 @@
+{
+  "prefix": [
+    { "expr": "+ 1 2",     "comment": "" },
+    { "expr": "* + 1 2 3", "comment": "" },
+    { "expr": "sqrt ^ 2 3","comment": "" },
+    { "expr": "log 100",   "comment": "" },
+    { "expr": "+ 1 * 2 pi","comment": "" }
+  ],
+  "postfix": [
+    { "expr": "1 2 +",     "comment": "" },
+    { "expr": "1 2 + 3 *", "comment": "" },
+    { "expr": "2 3 ^ sqrt","comment": "" },
+    { "expr": "100 log",   "comment": "" },
+    { "expr": "1 2 pi * +","comment": "" }
+  ],
+  "transform": [
+    { "expr": "1 + 2",                   "comment": "" },
+    { "expr": "2 * 3 + 4",               "comment": "" },
+    { "expr": "sqrt(9) + 1",             "comment": "" },
+    { "expr": "3 + 4 * 2 / (1 - 5)^2",   "comment": "" },
+    { "expr": "(2 + 3) * (4 - 1)",       "comment": "" }
+  ]
+}

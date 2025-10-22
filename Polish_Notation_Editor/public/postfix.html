@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <title>PoE - Postfix Notation Editor</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js"></script>
+  <script>
+    window.MathJax = {
+      loader: { load: ['input/mml', 'output/chtml'] },
+      startup: { typeset: false }
+    };
+  </script>
+  <style>
+    body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 20px;
+  background-color: #f4f8fb;
+  color: #333;
+  font-size: 1em;
+}
+textarea, input {
+  width: 80%;
+  max-width: 500px;
+  padding: 6px;
+  margin: 6px auto;
+  display: block;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+button {
+  font-size: 1em;
+  padding: 6px 12px;
+  margin: 6px;
+  border: none;
+  border-radius: 6px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #0056b3;
+}
+.svg-wrapper {
+  text-align: center;
+  overflow-x: auto;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  padding: 8px;
+}
+pre {
+  background-color: #f9f9f9;
+  padding: 6px;
+  border-radius: 4px;
+  text-align: left;
+  max-width: 700px;
+  margin: 0 auto;
+  font-size: 1em;
+}
+ul {
+  text-align: left;
+  max-width: 700px;
+  margin: 0 auto;
+  font-size: 1em;
+  padding-left: 20px;
+}
+h1, h2, h3 {
+  margin-top: 20px;
+  font-size: 1.4em;
+}
+#commentDisplay {
+  margin-top: 8px;
+  font-weight: bold;
+  color: darkgreen;
+}
+
+  </style>
+</head>
+<body>
+  <h1>Polish Notation Editor</h1>
+
+  <textarea id="inputExpr" placeholder="Scrie expresia..." oninput="hideImportButtons()"></textarea>
+  <button onclick="evaluatePostfixExpr()">Evaluare</button>
+  <button id="nextImportedExprBtn" onclick="nextImportedExpr()" style="display:none;">➡️ Următoarea expresie importată</button>
+  <button id="prevImportedExprBtn" onclick="prevImportedExpr()" style="display:none;">⏮ Expresia anterioară</button>
+
+  <h2>Rezultat</h2>
+  <pre id="output"></pre>
+
+  <ul id="steps"></ul>
+
+  <h2>Reprezentare logică (MathML)</h2>
+  <div id="mathmlView"></div>
+
+  <h2>Arbore SVG</h2>
+  <div class="svg-wrapper">
+    <svg id="svgTree" height="240"></svg>
+  </div>
+
+  <h2>Exemple predefinite</h2>
+  <ul id="examplesList"></ul>
+
+  <h3>Comentariu</h3>
+  <textarea id="comment" placeholder="Scrie un comentariu pentru expresie..."></textarea>
+  <button onclick="saveComment()">Salvează comentariul</button>
+  <div id="commentDisplay"></div>
+
+  <h2>Istoric expresii</h2>
+  <ul id="historyList"></ul>
+  <button onclick="clearHistory()">🧹 Șterge tot istoricul</button>
+
+  <button onclick="exportHistoryJSON()">Export JSON</button>
+  <button onclick="exportHistoryXML()">Export XML</button>
+  <br><br>
+  <input type="file" onchange="importHistoryFile(event)" accept=".json,.xml">
+
+  <script src="js/model.js"></script>
+  <script src="js/controller.js"></script>
+</body>
+</html>

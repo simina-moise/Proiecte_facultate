@@ -1,0 +1,32 @@
+[
+  {
+    "username": "simi",
+    "password": "parola123",
+    "role": "user",
+    "score": 0,
+    "history": [],
+    "favorites": []
+  },
+  {
+    "username": "simina_moise",
+    "password": "123",
+    "role": "user",
+    "score": 0,
+    "history": [],
+    "favorites": []
+  },
+  {
+    "username": "admin",
+    "password": "admin",
+    "role": "admin",
+    "score": 0,
+    "history": [],
+    "favorites": []
+  },
+  {
+    "username": "cos",
+    "password": "cos",
+    "role": "user",
+    "score": 0
+  }
+]

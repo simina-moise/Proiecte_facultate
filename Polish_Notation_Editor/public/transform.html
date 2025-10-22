@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ro">
+    <script>
+window.MathJax = {
+  loader: { load: ['input/mml', 'output/chtml'] },
+  tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+  startup: {
+    typeset: false // redăm manual când vrem
+  }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js"></script>
+
+<head>
+  <meta charset="UTF-8">
+  <title>PoE - Transformare Notare</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Transformare expresie infixată</h1>
+
+<textarea id="inputExpr" placeholder="Scrie expresia: 1 + 2 * 3" oninput="hideImportButtons()"></textarea>
+  <button onclick="evaluateTransformExpr()">Transformă</button>
+    <button id="nextImportedExprBtn" onclick="nextImportedExpr()" style="display:none;">
+  ➡️ Următoarea expresie importată
+</button>
+<button id="prevImportedExprBtn" onclick="prevImportedExpr()" style="display:none;">
+  ⏮ Expresia anterioară
+</button>
+
+  <h2>Prefix</h2>
+  <pre id="prefixOutput"></pre>
+
+  <h2>Postfix</h2>
+  <pre id="postfixOutput"></pre>
+
+  <h2>Rezultat numeric</h2>
+  <pre id="numericOutput"></pre>
+    
+    <h2>Reprezentare logică (MathML)</h2>
+    <div id="mathmlView"></div>
+
+    <h2>Arbore SVG</h2>
+<div class="svg-wrapper">
+  <svg id="svgTree" height="300"></svg>
+</div>
+
+  <ul id="steps"></ul>
+
+  <div id="tree"></div>
+
+  <h2>Exemple predefinite</h2>
+  <ul id="examplesList"></ul>
+
+  <h3>Comentariu</h3>
+  <textarea id="comment" placeholder="Scrie un comentariu pentru expresie..."></textarea>
+  <button onclick="saveComment()">Salvează comentariul</button>
+  <div id="commentDisplay"></div>
+
+  <h2>Istoric expresii</h2>
+  <ul id="historyList"></ul>
+<button onclick="clearHistory()">🧹 Șterge tot istoricul</button>
+
+  <button onclick="exportHistoryJSON()">Export JSON</button>
+  <button onclick="exportHistoryXML()">Export XML</button>
+  <br><br>
+  <input type="file" onchange="importHistoryFile(event)" accept=".json,.xml">
+
+  <script src="js/model.js"></script>
+  <script src="js/transform.js"></script>
+  <script>
+    const transformExamples = [
+      { expr: "1 + 2", comment: "" },
+      { expr: "2 * 3 + 4", comment: "" },
+      { expr: "sqrt(9) + 1", comment: "" },
+      { expr: "3 + 4 * 2 / (1 - 5)^2", comment: "" },
+      { expr: "(2 + 3) * (4 - 1)", comment: "" }
+    ];
+    let currentExampleIndex = null;
+    let currentExpr = null; // expresia selectată curent (din listă sau din fișier)
+
+    function evaluateTransformExpr(saveToHistory = true) {
+  const rawInput = document.getElementById('inputExpr').value.trim();
+  const inputText = preprocessUnaryMinus(rawInput);
+
+  // Validează expresia
+  if (!isValidInfixExpression(rawInput)) {
+    document.getElementById('prefixOutput').textContent = "";
+    document.getElementById('postfixOutput').textContent = "";
+    document.getElementById('numericOutput').textContent = "Expresie invalidă";
+    document.getElementById('tree').textContent = "";
+    document.getElementById('steps').innerHTML = "";
+    document.getElementById('mathmlView').innerHTML = ""; // ✅ curăță MathML
+    document.getElementById('svgTree').innerHTML = "";    // ✅ curăță SVG
+
+    return;
+  }
+
+  try {
+    const prefix = infixToPrefix(inputText);
+    const postfix = infixToPostfix(inputText);
+    const steps = [];
+    const [result, tree] = solvePrefixWithSteps(prefix, steps);
+
+    document.getElementById('prefixOutput').textContent = prefix
+  .replace(/\bneg\b/g, '-')
+  .replace(/\b3\.141592653589793\b/g, 'π');
+
+document.getElementById('postfixOutput').textContent = postfix
+  .replace(/\bneg\b/g, '-')
+  .replace(/\b3\.141592653589793\b/g, 'π');
+
+generateMathML(prefix, 'mathmlView');
+
+
+renderSVGTree(tree);
+
+
+        document.getElementById('numericOutput').textContent = result;
+
+        const stepsContainer = document.getElementById('steps');
+        stepsContainer.innerHTML = "<h3>Pași de evaluare:</h3>";
+        steps.forEach(step => {
+          const li = document.createElement('li');
+          li.textContent = step;
+          stepsContainer.appendChild(li);
+        });
+
+        //document.getElementById('tree').innerHTML = "<h3>Arbore de expresie:</h3><pre>" + renderTree(tree) + "</pre>";
+
+       if (saveToHistory && result !== null) {
+  currentExampleIndex = null;
+  HistoryModel.add(inputText); // ✅ fără comentariu
+  currentExpr = inputText;
+  const username = sessionStorage.getItem("username");
+if (username) {
+  fetch(`/api/history/${username}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ expressions: HistoryModel.expressions })
+  });
+}
+
+  updateHistoryUI();
+}
+
+
+      } catch (e) {
+        document.getElementById('prefixOutput').textContent = "";
+        document.getElementById('postfixOutput').textContent = "";
+        document.getElementById('numericOutput').textContent = "Eroare: " + e.message;
+        document.getElementById('tree').textContent = "";
+        document.getElementById('steps').innerHTML = "";
+      }
+    }
+
+    function solvePrefixWithSteps(expr, steps) {
+      const tokens = expr.trim().split(/\s+/).reverse();
+
+      function helper() {
+        if (tokens.length === 0) return [null, null];
+        const token = tokens.pop();
+
+        // Detectăm mai întâi minus unar (ex: -4)
+// Eliminăm tratamentul special pentru - unar aici
+if (!isNaN(token)) return [parseFloat(token), { value: token }];
+
+
+// Dacă e doar un număr (pozitiv), îl parsăm normal
+if (!isNaN(token)) return [parseFloat(token), { value: token }];
+
+       if (token === "π") return [Math.PI, { value: "π" }];
+if (token === "-π") return [-Math.PI, { value: "-π" }];
+if (token === "e") return [Math.E, { value: "e" }];
+if (token === "-e") return [-Math.E, { value: "-e" }];
+
+        if (isUnaryFunction(token)) {
+  const [val, tree] = helper();
+  let res;
+
+  if (val === null) throw new Error(`Operand lipsă pentru funcția ${token}`);
+
+  switch (token) {
+    case "sqrt": res = Math.sqrt(val); break;
+    case "log": res = Math.log10(val); break;
+    case "ln": res = Math.log(val); break;
+    case "abs": res = Math.abs(val); break;
+    case "neg": res = -val; break;
+    case "exp": res = Math.exp(val); break;
+    case "floor": res = Math.floor(val); break;
+    case "ceil": res = Math.ceil(val); break;
+    case "sin": res = Math.sin(val); break;
+    case "cos": res = Math.cos(val); break;
+    case "tan": res = Math.tan(val); break;
+    default: throw new Error("Funcție necunoscută: " + token);
+  }
+
+  steps.push(`${token} ${val} = ${res}`);
+  return [res, { value: token, left: tree }];
+}
+
+
+        const [leftVal, leftTree] = helper();
+const [rightVal, rightTree] = helper();
+
+
+
+        let res;
+        switch (token) {
+          case '+': res = leftVal + rightVal; break;
+          case '-': res = leftVal - rightVal; break;
+          case '*': res = leftVal * rightVal; break;
+          case '/': res = leftVal / rightVal; break;
+          case '^': res = Math.pow(leftVal, rightVal); break;
+          default: throw new Error("Operator necunoscut: " + token);
+        }
+        steps.push(`${leftVal} ${token} ${rightVal} = ${res}`);
+        return [res, { value: token, left: leftTree, right: rightTree }];
+      }
+
+      return helper();
+    }
+
+    function displayExamples() {
+      const list = document.getElementById("examplesList");
+      list.innerHTML = "";
+      transformExamples.forEach((ex, index) => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <button onclick="loadExample(${index})">${ex.expr}</button>
+          <span> ${ex.comment ? `📝 ${ex.comment}` : ""}</span>
+        `;
+        list.appendChild(li);
+      });
+    }
+
+    function loadExample(index) {
+      const ex = transformExamples[index];
+      currentExpr = ex.expr;
+      document.getElementById("inputExpr").value = ex.expr;
+      evaluateTransformExpr(false);
+      currentExampleIndex = index;
+      document.getElementById("comment").value = ex.comment || "";
+    }
+
+function saveComment() {
+  const newComment = document.getElementById("comment").value.trim();
+  if (!currentExpr) return alert("⚠️ Nicio expresie selectată.");
+
+  let found = false;
+
+  for (let i = 0; i < HistoryModel.expressions.length; i++) {
+    if (HistoryModel.expressions[i].expr === currentExpr) {
+      HistoryModel.expressions[i].comment = newComment;
+      found = true;
+      break;
+    }
+  }
+
+  if (!found) {
+    HistoryModel.expressions.push({
+      expr: currentExpr,
+      comment: newComment
+    });
+  }
+
+  const username = sessionStorage.getItem("username");
+  if (username) {
+    fetch(`/api/history/${username}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ expressions: HistoryModel.expressions })
+    }).then(res => {
+      console.log("✅ Comentariu salvat:", res.status);
+    });
+  }
+
+  updateHistoryUI();
+  document.getElementById("commentDisplay").textContent =
+    `Comentariu salvat: ${newComment}`;
+}
+function deleteExpression(index) {
+  if (!confirm("Sigur vrei să ștergi această expresie din istoric?")) return;
+
+  HistoryModel.expressions.splice(index, 1);
+  syncHistoryWithServer();
+  updateHistoryUI();
+}
+function deleteComment(index) {
+  if (
+    !HistoryModel.expressions[index] ||
+    typeof HistoryModel.expressions[index] === "string"
+  ) return;
+
+  HistoryModel.expressions[index].comment = "";
+  syncHistoryWithServer();
+  updateHistoryUI();
+}
+
+function syncHistoryWithServer() {
+  const username = sessionStorage.getItem("username");
+  if (!username) return;
+
+  fetch(`/api/history/${username}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ expressions: HistoryModel.expressions })
+  }).then(res => {
+    console.log("✅ Istoric sincronizat:", res.status);
+  }).catch(err => {
+    console.error("❌ Eroare la sincronizare:", err);
+  });
+}
+function clearHistory() {
+  if (!confirm("❗ Ești sigur că vrei să ștergi TOT istoricul?")) return;
+
+  HistoryModel.expressions = [];
+  syncHistoryWithServer();
+  updateHistoryUI();
+}
+
+
+function updateHistoryUI() {
+  const container = document.getElementById("historyList");
+  container.innerHTML = "";
+ HistoryModel.expressions.forEach((entry, i) => {
+  const exprText = typeof entry === "string" ? entry : entry.expr;
+  const commentText = typeof entry === "string" ? "" : entry.comment || "";
+
+  const li = document.createElement("li");
+  const shownExpr = exprText.replace(/\b3\.141592653589793\b/g, 'π');
+
+  let html = `${i + 1}. ${shownExpr}`;
+  if (commentText) {
+    html += ` <span style="color: gray">📝 ${commentText}</span>`;
+    html += ` <button onclick="deleteComment(${i})">❌ comentariu</button>`;
+  }
+  html += ` <button onclick="deleteExpression(${i})">🗑️</button>`;
+
+  li.innerHTML = html;
+  container.appendChild(li);
+});
+
+}
+
+
+    function exportHistoryJSON() {
+      const data = HistoryModel.exportJSON();
+      downloadFile("istoric.json", "application/json", data);
+    }
+
+    function exportHistoryXML() {
+      const data = HistoryModel.exportXML();
+      downloadFile("istoric.xml", "application/xml", data);
+    }
+
+    function downloadFile(filename, type, data) {
+      const blob = new Blob([data], { type });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+async function loadUserHistory(username) {
+  try {
+    const res = await fetch(`/api/history/${username}`);
+    const data = await res.json();
+    HistoryModel.expressions = data.expressions || [];
+    updateHistoryUI();
+  } catch (err) {
+    console.error("❌ Eroare la încărcarea istoricului:", err);
+  }
+}
+
+function importHistoryFile(event) {
+  const file = event.target.files[0];
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    const content = reader.result;
+
+    const oldLength = HistoryModel.expressions.length;
+
+    const success = file.name.endsWith(".json")
+      ? HistoryModel.importJSON(content)
+      : HistoryModel.importXML(content);
+
+    if (!success) {
+      alert("Fișier invalid.");
+      return;
+    }
+
+    updateHistoryUI();
+
+    const newEntries = HistoryModel.expressions.slice(oldLength);
+    importedExprList = newEntries.map(e => e.expr);
+    importedExprIndex = 0;
+
+    if (importedExprList.length > 0) {
+      showImportedExpr(importedExprList[0]);
+    }
+
+    updateNavigationButtons();
+  };
+
+  reader.readAsText(file);
+}
+
+
+
+
+    window.onload = () => {
+      //HistoryModel.load();
+const username = sessionStorage.getItem("username");
+if (username) {
+  loadUserHistory(username);
+}
+      displayExamples();
+    };
+  </script>
+</body>
+</html>

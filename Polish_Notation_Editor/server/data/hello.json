@@ -1,0 +1,24 @@
+{
+  "expressions": [
+    {
+      "expr": "1 2 + 3 ^ sqrt pi 2 / sin * e 2 3 ^ * log +",
+      "comment": "((√((1+2)^3)) * sin(π/2)) + log(e * 2^3)"
+    },
+    {
+      "expr": "10 15 - abs 3 + 20 3 / floor ^ neg -",
+      "comment": "-(-(abs(10-15)+3)^floor(20/3))"
+    },
+    {
+      "expr": "1 1 + sqrt ln 2 3 ^ / pi tan cos + exp",
+      "comment": ""
+    },
+    {
+      "expr": "100 10 / log e + pi 2 sqrt ^ neg tan cos sin *",
+      "comment": "((e + log(100/10)) * sin(cos(tan(-√π^2))))"
+    },
+    {
+      "expr": "1 2 + *",
+      "comment": "INVALID – operator în exces"
+    }
+  ]
+}

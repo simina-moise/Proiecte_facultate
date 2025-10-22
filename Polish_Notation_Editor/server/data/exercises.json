@@ -1,0 +1,92 @@
+[
+  {
+    "infix": "2 ^ (1 + 33)",
+    "prefix": "^ 2 + 1 33",
+    "postfix": "2 1 33 + ^",
+    "timeLimit": 10
+  },
+  {
+    "infix": "sqrt(81) + 10 / 22",
+    "prefix": "+ sqrt 81 / 10 22",
+    "postfix": "81 sqrt 10 22 / +",
+    "timeLimit": 60
+  },
+  {
+    "infix": "3 + abs(1 - 5)",
+    "prefix": "+ 3 abs - 1 5",
+    "postfix": "3 1 5 - abs +",
+    "timeLimit": 60
+  },
+  {
+    "infix": "log(100) * 2 ^ 3",
+    "prefix": "* log 100 ^ 2 3",
+    "postfix": "100 log 2 3 ^ *",
+    "timeLimit": 60
+  },
+  {
+    "infix": "floor(5.9) - ceil(2.1)",
+    "prefix": "- floor 5.9 ceil 2.1",
+    "postfix": "5.9 floor 2.1 ceil -",
+    "timeLimit": 60
+  },
+  {
+    "infix": "exp(1) + ln(e)",
+    "prefix": "+ exp 1 ln e",
+    "postfix": "1 exp e ln +",
+    "timeLimit": 60
+  },
+  {
+    "infix": "(4 + 5) * (6 - 2) / 3",
+    "prefix": "/ * + 4 5 - 6 2 3",
+    "postfix": "4 5 + 6 2 - * 3 /",
+    "timeLimit": 60
+  },
+  {
+    "infix": "abs(7) + sqrt(49)",
+    "prefix": "+ abs 7 sqrt 49",
+    "postfix": "7 abs 49 sqrt +",
+    "timeLimit": 60
+  },
+  {
+    "infix": "tan(π / 4) + 1",
+    "prefix": "+ tan / π 4 1",
+    "postfix": "π 4 / tan 1 +",
+    "timeLimit": 60
+  },
+  {
+    "infix": "(2 + 2) ^ (3 + 1)",
+    "prefix": "^ + 2 2 + 3 1",
+    "postfix": "2 2 + 3 1 + ^",
+    "timeLimit": 60
+  },
+  {
+    "infix": "log(10) + log(1000)",
+    "prefix": "+ log 10 log 1000",
+    "postfix": "10 log 1000 log +",
+    "timeLimit": 60
+  },
+  {
+    "infix": "3 * (4 + 5) - 6",
+    "prefix": "- * 3 + 4 5 6",
+    "postfix": "3 4 5 + * 6 -",
+    "timeLimit": 60
+  },
+  {
+    "infix": "cos(0) * sin(π)",
+    "prefix": "* cos 0 sin π",
+    "postfix": "0 cos π sin *",
+    "timeLimit": 60
+  },
+  {
+    "infix": "ceil(3.3) + floor(2.7) - 1",
+    "prefix": "- + ceil 3.3 floor 2.7 1",
+    "postfix": "3.3 ceil 2.7 floor + 1 -",
+    "timeLimit": 60
+  },
+  {
+    "infix": "4 + sqrt(16) * 2",
+    "prefix": "+ 4 * sqrt 16 2",
+    "postfix": "4 16 sqrt 2 * +",
+    "timeLimit": 60
+  }
+]

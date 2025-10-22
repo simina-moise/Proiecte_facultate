@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin - Gestionare Exerciții</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>👑 Panou Admin - Gestionare Exerciții</h1>
+  <div id="adminTools">
+<textarea
+  id="exerciseInput"
+  rows="10"
+  style="width:80%;"
+  placeholder='[
+  {
+    "infix": "a + b * c",
+    "prefix": "+ a * b c",
+    "postfix": "a b c * +",
+    "timeLimit": 60
+  },
+  ...
+]'
+></textarea>
+    <br><br>
+    <button onclick="saveExercises()">💾 Salvează exercițiile</button>
+    <p id="adminFeedback"></p>
+  </div>
+
+  <script>
+    // Protecție: dacă nu ești admin, nu poți accesa
+    if (sessionStorage.getItem("role") !== "admin") {
+      alert("Acces interzis. Doar adminii pot vedea această pagină.");
+      window.location.href = "index.html";
+    }
+
+    async function saveExercises() {
+      const content = document.getElementById("exerciseInput").value;
+      try {
+        const parsed = JSON.parse(content);
+        const res = await fetch("/api/admin/exercises", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ exercises: parsed })
+        });
+
+        const result = await res.json();
+        document.getElementById("adminFeedback").textContent = result.message;
+      } catch (err) {
+        document.getElementById("adminFeedback").textContent = "❌ JSON invalid sau eroare la salvare.";
+      }
+    }
+  </script>
+</body>
+</html>
