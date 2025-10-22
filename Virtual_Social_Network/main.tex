@@ -1,0 +1,103 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{ragged2e}
+\usepackage{titlesec}
+\usepackage{lmodern}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\setlength{\parskip}{1em}
+\setlength{\parindent}{0pt}
+
+% Ajustare margini
+\geometry{margin=1in}
+
+% Spațiere între secțiuni și subsecțiuni
+\titlespacing*{\section}{0pt}{1em}{0.5em}
+\titlespacing*{\subsection}{0pt}{0.75em}{0.5em}
+
+\title{Rețele de Calculatoare -- VirtualSoc}
+\author{Moise Ioana-Simina 2B2}
+\date{}
+
+\begin{document}
+\maketitle
+\justifying
+Facultatea de Informaticǎ, Universitatea "Alexandru Ioan Cuza" din Iaşi 
+
+\section{Introducere}
+În acest Raport Tehnic vreau sǎ prezint viziunea generalǎ a proiectului ales de mine , acesta fiind "VirtualSoc". Obiectivul este de a simula o rețea socială care permite utilizatorilor să interacționeze și să partajeze conținut, respectând drepturile de acces.Proiectul include funcționalități precum autentificarea, adăugarea și ștergerea de postări, știri sau prieteni, precum și vizualizarea istoricului evenimentelor.
+Acest proiect combină programarea avansată în limbajul C, manipularea fișierelor XML și programarea socket pentru a implementa un sistem complet de comunicație între server și client.
+\section{Tehnologii Aplicate}
+Tehnologiile utilizate în acest proiect includ programarea socket pentru comunicații de rețea, unde sunt folosite biblioteci POSIX pentru crearea și gestionarea conexiunilor TCP. Codul implementează funcții specifice precum socket, bind, listen, accept, connect, send și recv pentru stabilirea și gestionarea comunicațiilor între server și client.
+Un alt aspect important este utilizarea multithreading-ului, prin biblioteca POSIX Threads (pthread), care permite serverului să gestioneze simultan mai mulți clienți. Mutex-urile sunt utilizate pentru a sincroniza accesul la resursele partajate, cum ar fi fișierele XML.
+Pentru gestionarea datelor, proiectul utilizează biblioteca libxml2 pentru manipularea fișierelor XML. Aceasta permite parsarea, crearea, modificarea și salvarea documentelor XML. Funcții precum xmlParseFile, xmlDocGetRootElement, xmlNewNode, xmlNewChild și xmlSetProp sunt folosite pentru gestionarea nodurilor și atributelor XML. Salvarea documentelor XML se realizează cu formatare indentată pentru o lizibilitate mai bună.Pentru gestionarea clientilor am folosit o lista simpla inlantuita pentru stocarea clientilor pe care am gestionat-o cu ajutorul unui struct Client care are socket: Descriptorul de socket asociat conexiunii clientului,nume: Numele utilizatorului,tip: Tipul utilizatorului (ex. "admin", "user", etc.),profil: Profilul utilizatorului ("public" sau "privat"),authenticated: Flag care indică dacă utilizatorul este autentificat,next: Pointer către următorul client în listă (implementare de listă simplă înlănțuită).
+Gestionarea stringurilor este esențială în procesarea comenzilor și a datelor.Funcția personalizată strtrim este folosită pentru eliminarea spațiilor suplimentare.Proiectul folosește structuri ierarhice pentru organizarea informațiilor în fișiere XML, oferind un mod eficient de stocare și accesare a datelor despre utilizatori, prieteni și evenimente.
+Protocolul de comunicare între server și client este text-based, ceea ce înseamnă că comenzile și răspunsurile sunt trimise și recepționate sub formă de text. 
+
+\section{Structura Aplicației}
+Aplicația implementată este un sistem client-server care simulează o rețea socială simplificată. Serverul gestionează conexiunile și cererile clienților, iar interacțiunile sunt procesate printr-un protocol definit specific pentru această aplicație.
+Serverul acceptă conexiuni simultane de la clienți, stochează informațiile utilizatorilor în memorie și procesează cererile într-un mod multi-threaded, fiecare client având un thread dedicat. Serverul implementează următoarele funcționalități: autentificare, gestionare prieteni, postare mesaje, trimitere știri, gestionare profil utilizator trimitere mesaje private și deconectare.
+Clientul permite utilizatorului să introducă comenzi și să interacționeze cu serverul prin intermediul unui terminal. Acesta afișează răspunsurile primite de la server și garantează funcționarea de bază printr-un set de comenzi introduse manual.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{Screenshot 2025-01-08 at 18.51.33.png}
+    \caption{Diagramǎ UML}
+    \label{fig:enter-label}
+\end{figure}
+
+\section{Aspecte de Implementare}
+În codul serverului prezentat, utilizarea threadurilor și mutexurilor joacă un rol esențial în gestionarea corectă și eficientă a conexiunilor multiple și a concurenței dintre clienți.
+În implementare, funcția \texttt{pthread\_create} este folosită pentru a crea un thread dedicat fiecărui client:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{Screenshot 2025-01-07 at 20.59.13.png}
+    \label{fig:enter-label}
+\end{figure}
+Mutexurile ($\mathtt{pthread\_mutex\_t}$) sunt utilizate pentru a sincroniza accesul la resurse partajate, cum ar fi fișierul XML care stochează informațiile utilizatorilor. Acestea asigură că doar un singur thread poate accesa sau modifica resursa respectivă la un moment dat, prevenind condițiile de cursă și coruperea datelor.
+Un exemplu de utilizare a mutexurilor în cod este protejarea operațiunilor de citire/scriere în fișierul XML:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{Screenshot 2025-01-07 at 21.14.34.png}
+    \label{fig:enter-label}
+\end{figure}
+Mutexul ($\mathtt{db\_mutex}$) este inițializat la începutul programului și distrus la încheierea acestuia.
+Utilizarea threadurilor și mutexurilor în acest server permite procesarea eficientă și sigură a cererilor multiple ale clienților. Threadurile gestionează concurența prin crearea unui context separat pentru fiecare client, iar mutexurile asigură integritatea datelor și elimină riscurile asociate accesării simultane a resurselor partajate.
+\section{Concluzii}
+
+Concluziile proiectului evidențiază succesul în implementarea unui sistem de comunicație client-server care utilizează tehnologii avansate pentru gestionarea conexiunilor, manipularea datelor și sincronizarea accesului.
+Serverul este capabil să gestioneze mai mulți clienți simultan, utilizând multithreading pentru a asigura performanța și scalabilitatea. Mecanismele de sincronizare prin mutex-uri previn conflictele între procese și asigură integritatea datelor partajate, mai ales în contextul accesului concurent la fișierele XML.
+Fișierele XML s-au dovedit a fi o soluție eficientă pentru stocarea informațiilor structurale despre utilizatori, prieteni și evenimente. Utilizarea bibliotecii libxml2 a permis manipularea flexibilă și precisă a acestor date, asigurând în același timp o organizare clară și lizibilă.
+Protocolul de comunicare bazat pe text între server și client este intuitiv și extensibil, oferind utilizatorilor un set clar de comenzi pentru interacțiune. Această abordare simplifică procesul de testare și depanare, deoarece fluxul de date este ușor de urmărit.
+Funcționalitățile oferite, cum ar fi autentificarea, adăugarea și gestionarea prietenilor, postărilor și știrilor, demonstrează flexibilitatea și complexitatea sistemului. În plus, înregistrarea evenimentelor și istoricul activităților adaugă un nivel suplimentar de transparență și utilitate.
+\section{Referințe Bibliografice}
+
+
+1. Universitatea "Alexandru Ioan-Cuza” din Iaşi - Cursuri și laboratoare - Rețele de calculatoare:  
+   \url{https://edu.info.uaic.ro/computer-networks/cursullaboratorul.php}
+
+2. Overleaf - Cum să incluzi cod în LaTeX:  
+   \url{https://www.overleaf.com/learn/latex/Code_listing}
+
+3. Exemplu de cod pentru un server pre-thread din cursul UAIC:  
+   \url{https://edu.info.uaic.ro/computernetworks/files/NetEx/S12/ServerPreThread/servTcPreTh.c}
+
+4. GeeksforGeeks - Funcții pentru thread-uri în C/C++:  
+   \url{https://www.geeksforgeeks.org/thread-functions-in-c-c/}
+
+5. GeeksforGeeks - Utilizarea funcției `snprintf` în biblioteca C:  
+   \url{https://www.geeksforgeeks.org/snprintf-c-library/}
+6. Exemplu de server TCP concurent care deserveste clientii prin crearea unui thread pentru fiecare client:
+    \url{https://edu.info.uaic.ro/computer-networks/files/NetEx/S12/ServerConcThread/servTcpConcTh2.c}
+    
+7. Exemplu de client TCP:
+    \url{https://edu.info.uaic.ro/computer-networks/files/NetEx/S12/ServerConcThread/cliTcpNr.c}
+
+\end{document}

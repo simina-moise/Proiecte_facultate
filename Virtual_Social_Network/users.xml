@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<users>
+  <user name="anon" type="guest" profile="public">
+    <events>
+      <event type="post">
+        Postare [public]: hello everyone
+      </event>
+    </events>
+    <friends/>
+  </user>
+  <user name="cari" type="user" profile="public" authenticated="true">
+    <events/>
+    <friends>
+      <friend name="simi" type="close"/>
+      <friend name="cari" type="close"/>
+      <friend name="miru" type="close"/>
+    </friends>
+  </user>
+  <user name="miru" type="user" profile="public" authenticated="true">
+    <events>
+      <event type="post">
+        Postare [privat]: mesaj privat
+      </event>
+    </events>
+    <friends>
+      <friend name="simi" type="close"/>
+      <friend name="cari" type="close"/>
+    </friends>
+  </user>
+  <user name="simi" type="admin" profile="public" authenticated="true">
+    <events>
+      <event type="stire">
+        Stire trimisa catre close: hey
+      </event>
+    </events>
+    <friends>
+      <friend name="miru" type="close"/>
+      <friend name="cari" type="close"/>
+    </friends>
+  </user>
+</users>
